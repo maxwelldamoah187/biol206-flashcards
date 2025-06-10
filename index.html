@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIOL 206 Anatomy & Physiology II - Final Exam Flashcards</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .section-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .section-btn {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .section-btn:hover, .section-btn.active {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .flashcard-container {
+            perspective: 1000px;
+            margin: 20px auto;
+            max-width: 800px;
+            height: 500px;
+        }
+
+        .flashcard {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            cursor: pointer;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, #fff 0%, #f8f9ff 100%);
+            color: #333;
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .question-number {
+            font-size: 14px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .card-back .question-number {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .question, .answer {
+            font-size: 18px;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .answer {
+            font-size: 16px;
+            text-align: left;
+            overflow-y: auto;
+            max-height: 400px;
+        }
+
+        .answer h4 {
+            color: #FFD700;
+            margin: 15px 0 10px 0;
+            font-size: 18px;
+        }
+
+        .answer ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .answer li {
+            margin: 5px 0;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            color: #667eea;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .control-btn:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .control-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .progress {
+            text-align: center;
+            color: white;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .section-title {
+            text-align: center;
+            color: white;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .flashcard-container {
+                height: 450px;
+                margin: 10px;
+            }
+
+            .card-face {
+                padding: 20px;
+            }
+
+            .question, .answer {
+                font-size: 16px;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .section-nav {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>BIOL 206 Final Exam</h1>
+            <p class="subtitle">Anatomy & Physiology II - Comprehensive Review Flashcards</p>
+        </header>
+
+        <nav class="section-nav">
+            <button class="section-btn active" data-section="sensory">Sensory & Motor Systems</button>
+            <button class="section-btn" data-section="special">Special Senses</button>
+            <button class="section-btn" data-section="endocrine">Endocrine System</button>
+            <button class="section-btn" data-section="blood">Blood</button>
+            <button class="section-btn" data-section="heart">Heart & Vessels</button>
+            <button class="section-btn" data-section="respiratory">Respiratory System</button>
+            <button class="section-btn" data-section="digestive">Digestive System</button>
+            <button class="section-btn" data-section="kidney">The Kidney</button>
+            <button class="section-btn" data-section="reproductive">Reproductive System</button>
+        </nav>
+
+        <div id="flashcard-area">
+            <div class="section-title" id="section-title">Sensory, Motor and Integrative Systems</div>
+            
+            <div class="flashcard-container">
+                <div class="flashcard" id="flashcard">
+                    <div class="card-face card-front">
+                        <div class="question-number" id="question-number">Question 1 of 8</div>
+                        <div class="question" id="question">What is receptor selectivity?</div>
+                    </div>
+                    <div class="card-face card-back">
+                        <div class="question-number" id="answer-number">Question 1 of 8</div>
+                        <div class="answer" id="answer">Loading...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="control-btn" id="prev-btn" disabled>Previous</button>
+                <button class="control-btn" id="flip-btn">Flip Card</button>
+                <button class="control-btn" id="next-btn">Next</button>
+            </div>
+
+            <div class="progress" id="progress">Card 1 of 8</div>
+        </div>
+    </div>
+
+    <script>
+        const flashcardData = {
+            sensory: {
+                title: "Sensory, Motor and Integrative Systems",
+                cards: [
+                    {
+                        question: "What is receptor selectivity?",
+                        answer: `<h4>Receptor Selectivity</h4>
+                        <p><strong>Definition:</strong> The ability of sensory receptors to respond preferentially to only one type of stimulus energy.</p>
+                        
+                        <h4>Key Principles:</h4>
+                        <ul>
+                            <li><strong>Specificity:</strong> Each receptor type responds to its "adequate stimulus" - the form of energy it is designed to detect</li>
+                            <li><strong>Labeled Line Principle:</strong> The stimulus specificity is conserved throughout the neural pathway from receptor to CNS</li>
+                            <li><strong>Examples:</strong>
+                                <ul>
+                                    <li>Mechanoreceptors → mechanical deformation</li>
+                                    <li>Photoreceptors → light energy</li>
+                                    <li>Chemoreceptors → chemical molecules</li>
+                                    <li>Thermoreceptors → temperature changes</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        
+                        <h4>Clinical Significance:</h4>
+                        <p>This selectivity allows the brain to distinguish different types of stimuli and process them appropriately. Damage to specific receptor types results in loss of that particular sensory modality.</p>`
+                    },
+                    {
+                        question: "How do sensory receptors differ structurally?",
+                        answer: `<h4>Structural Classification of Sensory Receptors</h4>
+                        
+                        <h4>1. Free Nerve Endings</h4>
+                        <ul>
+                            <li><strong>Structure:</strong> Unmyelinated dendrites embedded directly in tissue</li>
+                            <li><strong>Examples:</strong> Nociceptors (pain), thermoreceptors (temperature)</li>
+                            <li><strong>Location:</strong> Dermis and epidermis</li>
+                        </ul>
+                        
+                        <h4>2. Encapsulated Nerve Endings</h4>
+                        <ul>
+                            <li><strong>Structure:</strong> Nerve endings surrounded by connective tissue capsules</li>
+                            <li><strong>Enhanced sensitivity</strong> due to specialized capsule structure</li>
+                            <li><strong>Examples:</strong>
+                                <ul>
+                                    <li>Meissner corpuscles (light touch)</li>
+                                    <li>Pacinian corpuscles (vibration, pressure)</li>
+                                    <li>Ruffini endings (stretch, skin deformation)</li>
+                                    <li>Merkel disks (fine touch, texture)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        
+                        <h4>3. Specialized Receptor Cells</h4>
+                        <ul>
+                            <li><strong>Structure:</strong> Distinct structural components for specific stimuli</li>
+                            <li><strong>Examples:</strong> Photoreceptors (rods/cones), hair cells (hearing/balance), taste buds</li>
+                            <li><strong>Function:</strong> Convert specific stimulus energy into electrical signals</li>
+                        </ul>`
+                    },
+                    {
+                        question: "What is adaptation? How does it occur? What is the functional relevance for adaptation?",
+                        answer: `<h4>Sensory Adaptation</h4>
+                        
+                        <h4>Definition:</h4>
+                        <p>The decrease in sensitivity and response rate of sensory receptors to a constant, unchanging stimulus over time.</p>
+                        
+                        <h4>Mechanism:</h4>
+                        <ul>
+                            <li><strong>Receptor level:</strong> Decreased sensitivity of receptor proteins to constant stimulation</li>
+                            <li><strong>Ion channel modulation:</strong> Changes in membrane permeability</li>
+                            <li><strong>Neurotransmitter depletion:</strong> Reduced release at synapses</li>
+                            <li><strong>Central processing:</strong> CNS filtering of redundant information</li>
+                        </ul>
+                        
+                        <h4>Types:</h4>
+                        <ul>
+                            <li><strong>Rapidly adapting (Phasic):</strong> Quickly stop responding to constant stimuli</li>
+                            <li><strong>Slowly adapting (Tonic):</strong> Continue responding as long as stimulus persists</li>
+                        </ul>
+                        
+                        <h4>Functional Relevance:</h4>
+                        <ul>
+                            <li><strong>Prevents sensory overload:</strong> Filters out constant, non-threatening stimuli</li>
+                            <li><strong>Highlights changes:</strong> Makes the nervous system more sensitive to new or changing stimuli</li>
+                            <li><strong>Energy conservation:</strong> Reduces unnecessary neural activity</li>
+                            <li><strong>Attention focus:</strong> Allows focus on important environmental changes</li>
+                        </ul>
+                        
+                        <h4>Clinical Example:</h4>
+                        <p>Why you stop noticing your clothes after putting them on, but immediately notice when someone touches you.</p>`
+                    },
+                    {
+                        question: "What is the difference between rapidly adapting and slowly adapting receptors? What do they signal?",
+                        answer: `<h4>Rapidly Adapting vs. Slowly Adapting Receptors</h4>
+                        
+                        <h4>Rapidly Adapting (Phasic) Receptors:</h4>
+                        <ul>
+                            <li><strong>Response pattern:</strong> Fire at onset and/or offset of stimulus</li>
+                            <li><strong>Function:</strong> Signal timing and changes in stimuli</li>
+                            <li><strong>Information provided:</strong> "When did it start/stop?"</li>
+                            <li><strong>Examples:</strong>
+                                <ul>
+                                    <li>Pacinian corpuscles (vibration detection)</li>
+                                    <li>Meissner corpuscles (light touch detection)</li>
+                                    <li>Hair movement receptors</li>
+                                </ul>
+                            </li>
+                            <li><strong>Advantage:</strong> Excellent for detecting movement, changes, and temporal events</li>
+                        </ul>
+                        
+                        <h4>Slowly Adapting (Tonic) Receptors:</h4>
+                        <ul>
+                            <li><strong>Response pattern:</strong> Continue firing as long as stimulus persists</li>
+                            <li><strong>Function:</strong> Signal continuous presence and intensity of stimuli</li>
+                            <li><strong>Information provided:</strong> "How much?" and "Is it still there?"</li>
+                            <li><strong>Examples:</strong>
+                                <ul>
+                                    <li>Merkel disks (sustained pressure, texture)</li>
+                                    <li>Ruffini endings (skin stretch)</li>
+                                    <li>Muscle spindles (muscle length)</li>
+                                    <li>Pain receptors (nociceptors)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Advantage:</strong> Essential for monitoring ongoing conditions and body position</li>
+                        </ul>
+                        
+                        <h4>Clinical Significance:</h4>
+                        <p>Damage to rapidly adapting receptors affects detection of movements and changes, while damage to slowly adapting receptors impairs position sense and sustained sensations.</p>`
+                    },
+                    {
+                        question: "Why do we need pain receptors? How are they activated? Why do pain receptors not adapt?",
+                        answer: `<h4>Pain Receptors (Nociceptors)</h4>
+                        
+                        <h4>Why We Need Pain Receptors:</h4>
+                        <ul>
+                            <li><strong>Protective function:</strong> Warning system for tissue damage or potential harm</li>
+                            <li><strong>Survival mechanism:</strong> Promotes withdrawal from harmful stimuli</li>
+                            <li><strong>Learning:</strong> Creates memories to avoid dangerous situations</li>
+                            <li><strong>Tissue preservation:</strong> Prevents further damage to injured areas</li>
+                            <li><strong>Healing promotion:</strong> Encourages rest and protection of injured tissue</li>
+                        </ul>
+                        
+                        <h4>Activation Mechanisms:</h4>
+                        <ul>
+                            <li><strong>Mechanical:</strong> Extreme pressure, tissue deformation, cutting</li>
+                            <li><strong>Thermal:</strong> Extreme temperatures (>45°C or <10°C)</li>
+                            <li><strong>Chemical:</strong> 
+                                <ul>
+                                    <li>Inflammatory mediators (prostaglandins, bradykinin)</li>
+                                    <li>Acids (low pH)</li>
+                                    <li>Capsaicin, toxins</li>
+                                </ul>
+                            </li>
+                            <li><strong>Ion channels involved:</strong> TRP channels (TRPV1, TRPA1), voltage-gated sodium channels</li>
+                        </ul>
+                        
+                        <h4>Why Pain Receptors Don't Adapt:</h4>
+                        <ul>
+                            <li><strong>Continuous protection:</strong> Ongoing tissue damage requires constant awareness</li>
+                            <li><strong>Survival priority:</strong> Pain signals must persist to ensure protective behavior</li>
+                            <li><strong>Preventing further injury:</strong> Continuous pain prevents use of damaged tissue</li>
+                            <li><strong>Sensitization instead:</strong> Often become MORE sensitive (hyperalgesia) during injury</li>
+                        </ul>
+                        
+                        <h4>Clinical Relevance:</h4>
+                        <p>Congenital insensitivity to pain is a rare but dangerous condition where people cannot feel pain, leading to severe injuries and shortened lifespan.</p>`
+                    },
+                    {
+                        question: "What is proprioception and what are the receptors involved?",
+                        answer: `<h4>Proprioception</h4>
+                        
+                        <h4>Definition:</h4>
+                        <p>The sense of body position, movement, and spatial orientation without visual input - often called the "sixth sense" or "position sense."</p>
+                        
+                        <h4>Primary Proprioceptors:</h4>
+                        
+                        <h4>1. Muscle Spindles</h4>
+                        <ul>
+                            <li><strong>Location:</strong> Within skeletal muscle bellies, parallel to muscle fibers</li>
+                            <li><strong>Structure:</strong> Intrafusal muscle fibers in connective tissue capsule</li>
+                            <li><strong>Innervation:</strong> 
+                                <ul>
+                                    <li>Group Ia afferents (primary endings) - muscle length + velocity</li>
+                                    <li>Group II afferents (secondary endings) - muscle length</li>
+                                </ul>
+                            </li>
+                            <li><strong>Function:</strong> Detect muscle stretch and length changes</li>
+                        </ul>
+                        
+                        <h4>2. Golgi Tendon Organs (GTOs)</h4>
+                        <ul>
+                            <li><strong>Location:</strong> Musculotendinous junction, in series with muscle</li>
+                            <li><strong>Structure:</strong> Collagen fibers with nerve endings</li>
+                            <li><strong>Innervation:</strong> Group Ib afferents</li>
+                            <li><strong>Function:</strong> Detect muscle tension and force</li>
+                        </ul>
+                        
+                        <h4>3. Joint Receptors</h4>
+                        <ul>
+                            <li><strong>Types:</strong> Ruffini endings, Pacinian corpuscles in joint capsules</li>
+                            <li><strong>Function:</strong> Detect joint position at extreme ranges</li>
+                        </ul>
+                        
+                        <h4>4. Cutaneous Mechanoreceptors</h4>
+                        <ul>
+                            <li><strong>Contribution:</strong> Skin stretch during movement</li>
+                            <li><strong>Receptors:</strong> Ruffini endings, Merkel disks</li>
+                        </ul>
+                        
+                        <h4>Clinical Significance:</h4>
+                        <p>Proprioceptive deficits lead to ataxia, balance problems, and difficulty with coordinated movements. Essential for motor control and balance.</p>`
+                    },
+                    {
+                        question: "If thermoreceptors function between 10 and 40 degrees Celsius, how does our sensory system respond to temperatures below and above those?",
+                        answer: `<h4>Temperature Sensation Beyond Normal Range</h4>
+                        
+                        <h4>Normal Thermoreceptor Range (10-40°C):</h4>
+                        <ul>
+                            <li><strong>Cold receptors:</strong> TRPM8 channels (10-30°C)</li>
+                            <li><strong>Warm receptors:</strong> TRPV3/TRPV4 channels (30-40°C)</li>
+                        </ul>
+                        
+                        <h4>Extreme Cold (<10°C):</h4>
+                        <ul>
+                            <li><strong>Mechanism:</strong> Activation of nociceptors (pain receptors)</li>
+                            <li><strong>Ion channels:</strong> TRPA1 channels become active</li>
+                            <li><strong>Sensation:</strong> "Freezing pain" or "cold pain"</li>
+                            <li><strong>Additional effects:</strong> 
+                                <ul>
+                                    <li>Mechanical nociceptors activated by tissue damage</li>
+                                    <li>Reduced nerve conduction (numbness)</li>
+                                    <li>Vasoconstriction reduces blood flow</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        
+                        <h4>Extreme Heat (>40°C):</h4>
+                        <ul>
+                            <li><strong>Mechanism:</strong> Activation of heat-sensitive nociceptors</li>
+                            <li><strong>Ion channels:</strong> 
+                                <ul>
+                                    <li>TRPV1 channels (>43°C) - "capsaicin receptor"</li>
+                                    <li>TRPV2 channels (>52°C)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Sensation:</strong> "Burning pain" or "heat pain"</li>
+                            <li><strong>Protective response:</strong> Immediate withdrawal reflex</li>
+                        </ul>
+                        
+                        <h4>Paradoxical Sensations:</h4>
+                        <ul>
+                            <li><strong>Paradoxical cold:</strong> Very hot stimuli (>45°C) can activate cold receptors</li>
+                            <li><strong>Result:</strong> Mixed sensation of burning and cold</li>
+                        </ul>
+                        
+                        <h4>Clinical Significance:</h4>
+                        <p>This dual system (thermoreceptors + nociceptors) ensures both accurate temperature discrimination in the safe range and protective pain responses to potentially damaging temperatures.</p>`
+                    },
+                    {
+                        question: "How can you explain the over-representation of the hand and face for both the primary somatosensory and motor cortices?",
+                        answer: `<h4>Cortical Over-representation of Hand and Face</h4>
+                        
+                        <h4>Somatotopic Organization:</h4>
+                        <p>The somatosensory and motor cortices are organized in a "map" of the body called a homunculus, where body parts are represented proportionally to their functional importance rather than their actual size.</p>
+                        
+                        <h4>Reasons for Over-representation:</h4>
+                        
+                        <h4>1. Receptor Density</h4>
+                        <ul>
+                            <li><strong>Hands:</strong> Very high density of mechanoreceptors (especially fingertips)</li>
+                            <li><strong>Face/Lips:</strong> Extremely dense innervation for facial expression and speech</li>
+                            <li><strong>Comparison:</strong> Much higher receptor density than back or legs</li>
+                        </ul>
+                        
+                        <h4>2. Functional Importance</h4>
+                        <ul>
+                            <li><strong>Hands:</strong> 
+                                <ul>
+                                    <li>Fine motor control for manipulation</li>
+                                    <li>Tactile discrimination for object recognition</li>
+                                    <li>Tool use and skilled behaviors</li>
+                                </ul>
+                            </li>
+                            <li><strong>Face:</strong>
+                                <ul>
+                                    <li>Facial expression for communication</li>
+                                    <li>Speech articulation</li>
+                                    <li>Eating and drinking</li>
+                                    <li>Social interaction</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        
+                        <h4>3. Evolutionary Advantage</h4>
+                        <ul>
+                            <li><strong>Survival benefit:</strong> Precise hand control for tool use</li>
+                            <li><strong>Communication:</strong> Facial expressions and speech</li>
+                            <li><strong>Environmental interaction:</strong> Exploration and manipulation</li>
+                        </ul>
+                        
+                        <h4>4. Neural Architecture</h4>
+                        <ul>
+                            <li><strong>More cortical neurons</strong> dedicated to processing hand/face information</li>
+                            <li><strong>Smaller receptive fields</strong> in hands/face = better discrimination</li>
+                            <li><strong>More synaptic connections</strong> for complex processing</li>
+                        </ul>
+                        
+                        <h4>Clinical Significance:</h4>
+                        <p>Stroke affecting hand/face areas of cortex causes more noticeable deficits than similar-sized lesions affecting trunk representation. Phantom limb sensations are more common and vivid for hands than other body parts.</p>`
+                    }
+                ]
+            },
+            special: {
+                title: "The Special Senses",
+                cards: [
+                    {
+                        question: "What is common between olfaction and taste?",
+                        answer: `<h4>Similarities Between Olfaction and Taste</h4>
+                        
+                        <h4>1. Chemoreception</h4>
+                        <ul>
+                            <li><strong>Both detect chemical stimuli</strong> from the environment</li>
+                            <li><strong>Molecular recognition:</strong> Binding of specific molecules to receptor proteins</li>
+                            <li><strong>Chemical transduction:</strong> Convert chemical binding into electrical signals</li>
+                        </ul>
+                        
+                        <h4>2. G-Protein Coupled Receptors (GPCRs)</h4>
+                        <ul>
+                            <li><strong>Receptor type:</strong> Both use GPCRs for signal transduction</li>
+                            <li><strong>Second messenger systems:</strong> cAMP and IP3/DAG pathways</li>
+                            <li><strong>Signal amplification:</strong> Single molecule binding can generate multiple action potentials</li>
+                        </ul>
+                        
+                        <h4>3. Anatomical Connections</h4>
+                        <ul>
+                            <li><strong>Direct CNS projection:</strong> Only sensory systems that project directly to cerebral cortex (bypass thalamus)</li>
+                            <li><strong>Limbic system connections:</strong> Both connect to emotional and memory centers</li>
+                            <li><strong>Hypothalamic connections:</strong> Influence feeding behavior and autonomic responses</li>
+                        </ul>
+                        
+                        <h4>4. Functional Similarities</h4>
+                        <ul>
+                            <li><strong>Food evaluation:</strong> Both assess nutritional quality and safety</li>
+                            <li><strong>Memory formation:</strong> Strong connections to emotional memories</li>
+                            <li><strong>Adaptation:</strong> Both show sensory adaptation to prolonged stimuli</li>
+                            <li><strong>Individual variation:</strong> Genetic differences in receptor sensitivity</li>
+                        </ul>
+                        
+                        <h4>5. Development</h4>
+                        <ul>
+                            <li><strong>Neural crest origin:</strong> Receptor cells derive from similar embryonic tissues</li>
+                            <li><strong>Regeneration:</strong> Both can regenerate receptor cells (unlike other sensory systems)</li>
+                        </ul>
+                        
+                        <h4>Integration:</h4>
+                        <p>Olfaction and taste work together to create flavor perception. Most of what we perceive as "taste" is actually smell (retronasal olfaction).</p>`
+                    },
+                    {
+                        question: "What is the function of tears?",
+                        answer: `<h4>Functions of Tears</h4>
+                        
+                        <h4>1. Lubrication and Protection</h4>
+                        <ul>
+                            <li><strong>Corneal protection:</strong> Maintain smooth corneal surface for clear vision</li>
+                            <li><strong>Mechanical barrier:</strong> Prevent friction between eyelids and eyeball</li>
+                            <li><strong>Foreign particle removal:</strong> Wash away dust, debris, and irritants</li>
+                        </ul>
+                        
+                        <h4>2. Antimicrobial Defense</h4>
+                        <ul>
+                            <li><strong>Lysozyme:</strong> Enzyme that breaks down bacterial cell walls</li>
+                            <li><strong>Lactoferrin:</strong> Binds iron needed for bacterial growth</li>
+                            <li><strong>Immunoglobulin A (IgA):</strong> Antibodies against pathogens</li>
+                            <li><strong>Complement proteins:</strong> Part of immune response</li>
+                        </ul>
+                        
+                        <h4>3. Nutritional Support</h4>
+                        <ul>
+                            <li><strong>Oxygen delivery:</strong> Supplies O₂ to avascular cornea</li>
+                            <li><strong>Nutrients:</strong> Glucose, electrolytes, proteins for corneal metabolism</li>
+                            <li><strong>Waste removal:</strong> Carries away metabolic byproducts</li>
+                        </ul>
+                        
+                        <h4>4. Optical Function</h4>
+                        <ul>
+                            <li><strong>Refractive surface:</strong> Creates smooth optical surface on cornea</li>
+                            <li><strong>Light transmission:</strong> Maintains corneal transparency</li>
+                            <li><strong>Visual acuity:</strong> Essential for sharp vision</li>
+                        </ul>
+                        
+                        <h4>5. Emotional Expression</h4>
+                        <ul>
+                            <li><strong>Communication:</strong> Signal emotional states</li>
+                            <li><strong>Social bonding:</strong> Elicit empathy and care from others</li>
+                            <li><strong>Stress relief:</strong> May help release emotional tension</li>
+                        </ul>
+                        
+                        <h4>Tear Composition:</h4>
+                        <ul>
+                            <li><strong>Aqueous layer:</strong> Water, electrolytes, proteins (middle layer)</li>
+                            <li><strong>Lipid layer:</strong> Prevents evaporation (outer layer)</li>
+                            <li><strong>Mucin layer:</strong> Helps tears adhere to cornea (inner layer)</li>
+                        </ul>
+                        
+                        <h4>Clinical Significance:</h4>
+                        <p>Dry eye syndrome results from inadequate tear production or composition, leading to corneal damage and vision problems.</p>`
+                    }
+                ]
+            },
+            endocrine: {
+                title: "Endocrine System",
+                cards: [
+                    {
+                        question: "What is the definition of a hormone?",
+                        answer: `<h4>Definition of a Hormone</h4>
+                        
+                        <h4>Classical Definition:</h4>
+                        <p><strong>A hormone is a chemical messenger molecule released by a cell or gland in one part of the body that travels through the bloodstream to affect cells in other parts of the organism.</strong></p>
+                        
+                        <h4>Key Characteristics:</h4>
+                        
+                        <h4>1. Chemical Nature</h4>
+                        <ul>
+                            <li><strong>Diverse molecules:</strong> Proteins, peptides, steroids, amino acid derivatives</li>
+                            <li><strong>Specific structure:</strong> Determines function and target specificity</li>
+                            <li><strong>Active in small amounts:</strong> Effective at nanomolar to picomolar concentrations</li>
+                        </ul>
+                        
+                        <h4>2. Source and Secretion</h4>
+                        <ul>
+                            <li><strong>Endocrine glands:</strong> Specialized hormone-producing organs</li>
+                            <li><strong>Other tissues:</strong> Heart, kidney, adipose tissue, etc.</li>
+                            <li><strong>Regulated release:</strong> Controlled by feedback mechanisms</li>
+                        </ul>
+                        
+                        <h4>3. Transport</h4>
+                        <ul>
+                            <li><strong>Circulation:</strong> Travel via bloodstream to distant targets</li>
+                            <li><strong>Binding proteins:</strong> Some hormones bound to carrier proteins</li>
+                            <li><strong>Free vs. bound:</strong> Only free hormones are biologically active</li>
+                        </ul>
+                        
+                        <h4>4. Target Specificity</h4>
+                        <ul>
+                            <li><strong>Receptor binding:</strong> Only affect cells with appropriate receptors</li>
+                            <li><strong>Lock and key:</strong> Hormone-receptor specificity</li>
+                            <li><strong>Multiple targets:</strong> One hormone can affect many cell types</li>
+                        </ul>
+                        
+                        <h4>5. Biological Effects</h4>
+                        <ul>
+                            <li><strong>Regulate metabolism:</strong> Control energy production and utilization</li>
+                            <li><strong>Growth and development:</strong> Control cellular growth and differentiation</li>
+                            <li><strong>Homeostasis:</strong> Maintain internal balance</li>
+                            <li><strong>Reproduction:</strong> Control reproductive functions</li>
+                        </ul>
+                        
+                        <h4>Modern Expanded Definition:</h4>
+                        <p>Includes autocrine (same cell), paracrine (nearby cells), and endocrine (distant cells) signaling molecules that regulate physiological processes.</p>`
+                    }
+                ]
+            },
+            blood: {
+                title: "Blood",
+                cards: [
+                    {
+                        question: "Functions of blood",
+                        answer: `<h4>Major Functions of Blood</h4>
+                        
+                        <h4>1. Transportation</h4>
+                        <ul>
+                            <li><strong>Respiratory gases:</strong> O₂ from lungs to tissues, CO₂ from tissues to lungs</li>
+                            <li><strong>Nutrients:</strong> Glucose, amino acids, fatty acids, vitamins, minerals</li>
+                            <li><strong>Metabolic wastes:</strong> Urea, creatinine, bilirubin to excretory organs</li>
+                            <li><strong>Hormones:</strong> Chemical messengers between organs</li>
+                            <li><strong>Heat:</strong> Distributes body heat for thermoregulation</li>
+                        </ul>
+                        
+                        <h4>2. Regulation (Homeostasis)</h4>
+                        <ul>
+                            <li><strong>pH balance:</strong> Bicarbonate and phosphate buffer systems</li>
+                            <li><strong>Body temperature:</strong> Heat distribution and cooling</li>
+                            <li><strong>Water balance:</strong> Osmotic pressure regulation</li>
+                            <li><strong>Electrolyte balance:</strong> Sodium, potassium, calcium concentrations</li>
+                        </ul>
+                        
+                        <h4>3. Protection</h4>
+                        <ul>
+                            <li><strong>Immune defense:</strong> White blood cells fight infections</li>
+                            <li><strong>Blood clotting:</strong> Prevents blood loss through hemostasis</li>
+                            <li><strong>Toxin neutralization:</strong> Liver and immune system detoxification</li>
+                        </ul>`
+                    }
+                ]
+            },
+            heart: {
+                title: "Heart & Vessels",
+                cards: [
+                    {
+                        question: "Can you explain why the RIGHT ventricular wall is thinner and softer than the LEFT ventricular wall?",
+                        answer: `<h4>Right vs. Left Ventricular Wall Differences</h4>
+                        
+                        <h4>Anatomical Differences:</h4>
+                        <ul>
+                            <li><strong>Left ventricle:</strong> 8-12 mm thick muscular wall</li>
+                            <li><strong>Right ventricle:</strong> 3-5 mm thick muscular wall</li>
+                            <li><strong>Muscle mass ratio:</strong> LV:RV approximately 3:1</li>
+                        </ul>
+                        
+                        <h4>Functional Reasons:</h4>
+                        
+                        <h4>1. Pressure Requirements</h4>
+                        <ul>
+                            <li><strong>Left ventricle:</strong> Pumps against systemic circulation
+                                <ul>
+                                    <li>Systolic pressure: ~120 mmHg</li>
+                                    <li>Must overcome peripheral resistance</li>
+                                    <li>Needs to reach entire body</li>
+                                </ul>
+                            </li>
+                            <li><strong>Right ventricle:</strong> Pumps against pulmonary circulation
+                                <ul>
+                                    <li>Systolic pressure: ~25 mmHg</li>
+                                    <li>Short distance to lungs</li>
+                                    <li>Low resistance pulmonary vessels</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        
+                        <h4>2. Workload Differences</h4>
+                        <ul>
+                            <li><strong>Left ventricle:</strong> High-pressure, high-resistance system</li>
+                            <li><strong>Right ventricle:</strong> Low-pressure, low-resistance system</li>
+                            <li><strong>Energy requirements:</strong> LV requires 5-6x more energy than RV</li>
+                        </ul>
+                        
+                        <h4>3. Developmental Adaptations</h4>
+                        <ul>
+                            <li><strong>Laplace's Law:</strong> Wall stress = (Pressure × Radius) / (2 × Wall thickness)</li>
+                            <li><strong>LV adaptation:</strong> Thick wall to handle high pressure</li>
+                            <li><strong>RV adaptation:</strong> Thin wall adequate for low pressure</li>
+                        </ul>
+                        
+                        <h4>Clinical Significance:</h4>
+                        <ul>
+                            <li><strong>Pulmonary hypertension:</strong> Can cause RV hypertrophy</li>
+                            <li><strong>Heart failure:</strong> Different patterns in RV vs. LV failure</li>
+                            <li><strong>Adaptation:</strong> Ventricles can remodel based on workload</li>
+                        </ul>`
+                    }
+                ]
+            },
+            respiratory: {
+                title: "Respiratory System",
+                cards: [
+                    {
+                        question: "Explain the mechanism through which air enters our lungs",
+                        answer: `<h4>Mechanism of Air Entry into Lungs</h4>
+                        
+                        <h4>Inspiration (Inhalation) Process:</h4>
+                        
+                        <h4>1. Neural Control</h4>
+                        <ul>
+                            <li><strong>Respiratory center:</strong> Medulla oblongata generates rhythm</li>
+                            <li><strong>Phrenic nerve:</strong> Stimulates diaphragm (C3, C4, C5)</li>
+                            <li><strong>Intercostal nerves:</strong> Stimulate external intercostal muscles</li>
+                        </ul>
+                        
+                        <h4>2. Muscle Contraction</h4>
+                        <ul>
+                            <li><strong>Diaphragm:</strong> 
+                                <ul>
+                                    <li>Contracts and flattens</li>
+                                    <li>Moves downward ~1-3 cm</li>
+                                    <li>Increases vertical dimension of thorax</li>
+                                </ul>
+                            </li>
+                            <li><strong>External intercostals:</strong>
+                                <ul>
+                                    <li>Lift ribs upward and outward</li>
+                                    <li>"Bucket handle" movement</li>
+                                    <li>Increases anterior-posterior and lateral dimensions</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        
+                        <h4>3. Thoracic Volume Changes</h4>
+                        <ul>
+                            <li><strong>Thoracic expansion:</strong> Increases thoracic cavity volume</li>
+                            <li><strong>Pleural pressure:</strong> Becomes more negative (from -5 to -8 mmHg)</li>
+                            <li><strong>Lung expansion:</strong> Lungs follow chest wall due to pleural coupling</li>
+                        </ul>
+                        
+                        <h4>4. Pressure Changes (Boyle's Law)</h4>
+                        <ul>
+                            <li><strong>Alveolar volume increase:</strong> Lung expansion increases alveolar volume</li>
+                            <li><strong>Pressure decrease:</strong> P₁V₁ = P₂V₂ (pressure inversely related to volume)</li>
+                            <li><strong>Pressure gradient:</strong> Alveolar pressure drops below atmospheric pressure (~-1 mmHg)</li>
+                        </ul>
+                        
+                        <h4>5. Air Flow</h4>
+                        <ul>
+                            <li><strong>Pressure gradient:</strong> Air flows from high to low pressure</li>
+                            <li><strong>Atmospheric pressure:</strong> 760 mmHg (at sea level)</li>
+                            <li><strong>Alveolar pressure:</strong> ~759 mmHg during inspiration</li>
+                            <li><strong>Flow rate:</strong> Proportional to pressure difference</li>
+                        </ul>
+                        
+                        <h4>Key Principles:</h4>
+                        <ul>
+                            <li><strong>Active process:</strong> Requires muscle contraction</li>
+                            <li><strong>Pressure-driven:</strong> Air flows down pressure gradients</li>
+                            <li><strong>Mechanical coupling:</strong> Pleural linkage ensures lung expansion</li>
+                        </ul>`
+                    }
+                ]
+            },
+            digestive: {
+                title: "Digestive System",
+                cards: [
+                    {
+                        question: "What is/are the protective mechanism(s) used by the digestive system to protect itself from the action of acids and enzymes that it secretes?",
+                        answer: `<h4>Protective Mechanisms of the Digestive System</h4>
+                        
+                        <h4>1. Mucus Secretion</h4>
+                        <ul>
+                            <li><strong>Goblet cells:</strong> Secrete protective mucus throughout GI tract</li>
+                            <li><strong>Stomach:</strong> Alkaline mucus neutralizes acid at surface</li>
+                            <li><strong>Duodenum:</strong> Brunner's glands secrete alkaline mucus</li>
+                            <li><strong>Function:</strong> Physical barrier and chemical protection</li>
+                        </ul>
+                        
+                        <h4>2. Bicarbonate Secretion</h4>
+                        <ul>
+                            <li><strong>Stomach:</strong> Surface epithelial cells secrete HCO₃⁻</li>
+                            <li><strong>Pancreas:</strong> Massive HCO₃⁻ secretion into duodenum</li>
+                            <li><strong>Duodenum:</strong> Brunner's glands and surface cells</li>
+                            <li><strong>Function:</strong> Neutralizes acid, maintains pH balance</li>
+                        </ul>
+                        
+                        <h4>3. Rapid Epithelial Renewal</h4>
+                        <ul>
+                            <li><strong>Stomach:</strong> Complete renewal every 3-5 days</li>
+                            <li><strong>Small intestine:</strong> Villus cells renewed every 2-3 days</li>
+                            <li><strong>Colon:</strong> Surface cells renewed every 3-4 days</li>
+                            <li><strong>Mechanism:</strong> Stem cells in crypts continuously proliferate</li>
+                        </ul>
+                        
+                        <h4>4. Tight Junctions</h4>
+                        <ul>
+                            <li><strong>Barrier function:</strong> Prevent acid/enzyme penetration between cells</li>
+                            <li><strong>Selective permeability:</strong> Control what crosses epithelium</li>
+                            <li><strong>Maintenance:</strong> Continuously repaired and reinforced</li>
+                        </ul>
+                        
+                        <h4>5. Enzyme Compartmentalization</h4>
+                        <ul>
+                            <li><strong>Pancreatic enzymes:</strong> Released as inactive zymogens</li>
+                            <li><strong>Activation:</strong> Only activated in duodenum by enterokinase</li>
+                            <li><strong>Brush border enzymes:</strong> Membrane-bound, localized action</li>
+                        </ul>
+                        
+                        <h4>Clinical Relevance:</h4>
+                        <ul>
+                            <li><strong>Peptic ulcers:</strong> Breakdown of protective mechanisms</li>
+                            <li><strong>H. pylori:</strong> Disrupts mucus barrier</li>
+                            <li><strong>NSAIDs:</strong> Inhibit prostaglandin protection</li>
+                        </ul>`
+                    }
+                ]
+            },
+            kidney: {
+                title: "The Kidney",
+                cards: [
+                    {
+                        question: "What are the three processes that are basic to urine formation?",
+                        answer: `<h4>Three Basic Processes of Urine Formation</h4>
+                        
+                        <h4>1. GLOMERULAR FILTRATION</h4>
+                        
+                        <h4>Location:</h4>
+                        <ul>
+                            <li><strong>Renal corpuscle:</strong> Glomerulus + Bowman's capsule</li>
+                            <li><strong>Filtration membrane:</strong> Capillary wall + basement membrane + podocyte slits</li>
+                        </ul>
+                        
+                        <h4>Mechanism:</h4>
+                        <ul>
+                            <li><strong>Hydrostatic pressure:</strong> Forces fluid from glomerulus into Bowman's space</li>
+                            <li><strong>Size selectivity:</strong> Molecules <70 kDa freely filtered</li>
+                            <li><strong>Charge selectivity:</strong> Negative charge repels proteins</li>
+                            <li><strong>GFR:</strong> ~120-125 mL/min normal rate</li>
+                        </ul>
+                        
+                        <h4>2. TUBULAR REABSORPTION</h4>
+                        
+                        <h4>Location:</h4>
+                        <ul>
+                            <li><strong>Proximal tubule:</strong> 65% of filtrate reabsorbed</li>
+                            <li><strong>Loop of Henle:</strong> Concentrates urine</li>
+                            <li><strong>Distal tubule & collecting duct:</strong> Fine-tuning</li>
+                        </ul>
+                        
+                        <h4>What's Reabsorbed:</h4>
+                        <ul>
+                            <li><strong>Water:</strong> ~99% (180L filtered → 1.5L urine)</li>
+                            <li><strong>Sodium:</strong> ~99.5%</li>
+                            <li><strong>Glucose:</strong> 100% (normally)</li>
+                            <li><strong>Amino acids:</strong> 100%</li>
+                        </ul>
+                        
+                        <h4>3. TUBULAR SECRETION</h4>
+                        
+                        <h4>What's Secreted:</h4>
+                        <ul>
+                            <li><strong>Organic acids:</strong> PAH, furosemide, penicillin</li>
+                            <li><strong>K⁺:</strong> Regulated by aldosterone</li>
+                            <li><strong>H⁺:</strong> For acid-base balance</li>
+                            <li><strong>Creatinine:</strong> Waste product</li>
+                        </ul>
+                        
+                        <h4>Net Result:</h4>
+                        <p><strong>Urine Formation = Filtration - Reabsorption + Secretion</strong></p>`
+                    }
+                ]
+            },
+            reproductive: {
+                title: "Reproductive System",
+                cards: [
+                    {
+                        question: "What are the main differences in gamete production between males and females? (timing etc)",
+                        answer: `<h4>Male vs. Female Gamete Production Differences</h4>
+                        
+                        <h4>MALE GAMETE PRODUCTION (Spermatogenesis)</h4>
+                        
+                        <h4>Timing:</h4>
+                        <ul>
+                            <li><strong>Onset:</strong> Begins at puberty (~12-14 years)</li>
+                            <li><strong>Duration:</strong> ~74 days per cycle</li>
+                            <li><strong>Continuous:</strong> Ongoing throughout adult life</li>
+                            <li><strong>Daily production:</strong> ~300 million sperm/day</li>
+                        </ul>
+                        
+                        <h4>Quantity:</h4>
+                        <ul>
+                            <li><strong>Massive production:</strong> Millions produced continuously</li>
+                            <li><strong>High wastage:</strong> Most sperm never reach egg</li>
+                            <li><strong>Renewable:</strong> Constant regeneration</li>
+                        </ul>
+                        
+                        <h4>FEMALE GAMETE PRODUCTION (Oogenesis)</h4>
+                        
+                        <h4>Timing:</h4>
+                        <ul>
+                            <li><strong>Onset:</strong> Begins during fetal development</li>
+                            <li><strong>Birth:</strong> ~1-2 million primary oocytes present</li>
+                            <li><strong>Puberty:</strong> ~400,000 oocytes remain</li>
+                            <li><strong>Ovulation:</strong> ~400 oocytes released in lifetime</li>
+                            <li><strong>Menopause:</strong> ~50 years, oocyte depletion</li>
+                        </ul>
+                        
+                        <h4>Quantity:</h4>
+                        <ul>
+                            <li><strong>Limited number:</strong> Fixed at birth, no renewal</li>
+                            <li><strong>Atresia:</strong> Continuous oocyte death throughout life</li>
+                            <li><strong>Precious resource:</strong> Each oocyte carefully protected</li>
+                        </ul>
+                        
+                        <h4>KEY DIFFERENCES SUMMARY:</h4>
+                        
+                        <h4>1. Timing of Production</h4>
+                        <ul>
+                            <li><strong>Males:</strong> Continuous from puberty onward</li>
+                            <li><strong>Females:</strong> Initiated in fetal life, completed only if fertilization occurs</li>
+                        </ul>
+                        
+                        <h4>2. Quantity Produced</h4>
+                        <ul>
+                            <li><strong>Males:</strong> Millions daily, renewable</li>
+                            <li><strong>Females:</strong> One per month, finite supply</li>
+                        </ul>
+                        
+                        <h4>3. Age Effects</h4>
+                        <ul>
+                            <li><strong>Males:</strong> Gradual decline in quality/quantity</li>
+                            <li><strong>Females:</strong> Increased risk of genetic abnormalities with age</li>
+                        </ul>`
+                    }
+                ]
+            }
+        };
+
+        let currentSection = 'sensory';
+        let currentCardIndex = 0;
+        let isFlipped = false;
+
+        function showSection(section) {
+            currentSection = section;
+            currentCardIndex = 0;
+            isFlipped = false;
+            
+            // Update active button
+            document.querySelectorAll('.section-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[data-section="${section}"]`).classList.add('active');
+            
+            // Update section title
+            document.getElementById('section-title').textContent = flashcardData[section].title;
+            
+            // Show first card
+            showCard();
+            updateProgress();
+            updateButtons();
+        }
+
+        function showCard() {
+            const card = flashcardData[currentSection].cards[currentCardIndex];
+            const totalCards = flashcardData[currentSection].cards.length;
+            
+            document.getElementById('question-number').textContent = `Question ${currentCardIndex + 1} of ${totalCards}`;
+            document.getElementById('answer-number').textContent = `Question ${currentCardIndex + 1} of ${totalCards}`;
+            document.getElementById('question').textContent = card.question;
+            document.getElementById('answer').innerHTML = card.answer;
+            
+            // Reset flip state
+            if (isFlipped) {
+                flipCard();
+            }
+        }
+
+        function flipCard() {
+            const card = document.getElementById('flashcard');
+            isFlipped = !isFlipped;
+            
+            if (isFlipped) {
+                card.classList.add('flipped');
+            } else {
+                card.classList.remove('flipped');
+            }
+        }
+
+        function nextCard() {
+            if (currentCardIndex < flashcardData[currentSection].cards.length - 1) {
+                currentCardIndex++;
+                showCard();
+                updateProgress();
+                updateButtons();
+            }
+        }
+
+        function previousCard() {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                showCard();
+                updateProgress();
+                updateButtons();
+            }
+        }
+
+        function updateProgress() {
+            const total = flashcardData[currentSection].cards.length;
+            document.getElementById('progress').textContent = `Card ${currentCardIndex + 1} of ${total}`;
+        }
+
+        function updateButtons() {
+            const total = flashcardData[currentSection].cards.length;
+            document.getElementById('prev-btn').disabled = currentCardIndex === 0;
+            document.getElementById('next-btn').disabled = currentCardIndex === total - 1;
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Section buttons
+            document.querySelectorAll('.section-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    showSection(this.dataset.section);
+                });
+            });
+
+            // Control buttons
+            document.getElementById('prev-btn').addEventListener('click', previousCard);
+            document.getElementById('next-btn').addEventListener('click', nextCard);
+            document.getElementById('flip-btn').addEventListener('click', flipCard);
+            
+            // Card click to flip
+            document.getElementById('flashcard').addEventListener('click', flipCard);
+
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                switch(e.key) {
+                    case 'ArrowLeft':
+                        previousCard();
+                        break;
+                    case 'ArrowRight':
+                        nextCard();
+                        break;
+                    case ' ':
+                        e.preventDefault();
+                        flipCard();
+                        break;
+                }
+            });
+
+            // Initialize
+            showCard();
+            updateProgress();
+            updateButtons();
+        });
+    </script>
+</body>
+</html>
